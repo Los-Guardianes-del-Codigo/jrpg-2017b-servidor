@@ -6,10 +6,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import mensajeria.PaqueteNpc;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
 
@@ -402,5 +404,31 @@ public class Conector {
 		} catch (SQLException e) {
 			Servidor.log.append("Fallo al intentar actualizar el personaje " + paquetePersonaje.getNombre()  + System.lineSeparator());
 		}
+	}
+
+	public void getNpcs(Map<Integer, PaqueteNpc> npcs) {
+		try {
+			ResultSet res=null;
+			PreparedStatement st = connect.prepareStatement("SELECT ID_NPC, POSX, POSY, NOMBRE, DIFICULTAD, NIVEL from NPC INNER JOIN TIPO_NPC ON (NPC.ID_TIPO_NPC = TIPO_NPC.ID_TIPO_NPC)");
+			res=st.executeQuery();
+
+			while(res.next())
+			{
+				PaqueteNpc npc = new PaqueteNpc();
+				npc.setIdPersonaje(res.getInt("ID_NPC"));
+				npc.setPosX(res.getInt("POSX"));
+				npc.setPosY(res.getInt("POSY"));
+				npc.setNombre(res.getString("NOMBRE"));
+				npc.setDificultad(res.getInt("DIFICULTAD"));
+				npc.setNivel(res.getInt("NIVEL"));
+				npcs.put(npc.getIdPersonaje(), npc);
+				Servidor.log.append(npc.getNombre() + "->"+ npc.getPosX() +"/"+ npc.getPosY());
+			}
+			Servidor.log.append("Enviado paquete de NPCS de la DB al Server" + System.lineSeparator());;
+		} catch (SQLException e) {
+			Servidor.log.append("Fallo el envio de NPCS" + System.lineSeparator());;
+			e.printStackTrace();
+		}
+		
 	}
 }
