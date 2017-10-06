@@ -16,6 +16,7 @@ import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
 import mensajeria.PaqueteMovimiento;
+import mensajeria.PaqueteNpcs;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
 
@@ -26,7 +27,7 @@ public class EscuchaCliente extends Thread {
 	private final ObjectOutputStream salida;
 	private int idPersonaje;
 	private final Gson gson = new Gson();
-	
+
 	private PaquetePersonaje paquetePersonaje;
 	private PaqueteMovimiento paqueteMovimiento;
 	private PaqueteBatalla paqueteBatalla;
@@ -35,8 +36,11 @@ public class EscuchaCliente extends Thread {
 	private PaqueteUsuario paqueteUsuario;
 	private PaqueteDeMovimientos paqueteDeMovimiento;
 	private PaqueteDePersonajes paqueteDePersonajes;
+	private PaqueteNpcs	paqueteNpcs;
 
-	public EscuchaCliente(String ip, Socket socket, ObjectInputStream entrada, ObjectOutputStream salida) throws IOException {
+
+	public EscuchaCliente(String ip, Socket socket, ObjectInputStream entrada, ObjectOutputStream salida)
+			throws IOException {
 		this.socket = socket;
 		this.entrada = entrada;
 		this.salida = salida;
@@ -51,9 +55,8 @@ public class EscuchaCliente extends Thread {
 			paqueteUsuario = new PaqueteUsuario();
 
 			String cadenaLeida = (String) entrada.readObject();
-		
-			while (!((paquete = gson.fromJson(cadenaLeida, Paquete.class)).getComando() == Comando.DESCONECTAR)){
-								
+
+			while (!((paquete = gson.fromJson(cadenaLeida, Paquete.class)).getComando() == Comando.DESCONECTAR)) {
 
 				comand = (ComandosServer) paquete.getObjeto(Comando.NOMBREPAQUETE);
 				comand.setCadena(cadenaLeida);
@@ -80,25 +83,25 @@ public class EscuchaCliente extends Thread {
 
 		} catch (IOException | ClassNotFoundException e) {
 			Servidor.log.append("Error de conexion: " + e.getMessage() + System.lineSeparator());
-		} 
+		}
 	}
-	
+
 	public Socket getSocket() {
 		return socket;
 	}
-	
+
 	public ObjectInputStream getEntrada() {
 		return entrada;
 	}
-	
+
 	public ObjectOutputStream getSalida() {
 		return salida;
 	}
-	
-	public PaquetePersonaje getPaquetePersonaje(){
+
+	public PaquetePersonaje getPaquetePersonaje() {
 		return paquetePersonaje;
 	}
-	
+
 	public int getIdPersonaje() {
 		return idPersonaje;
 	}
@@ -166,5 +169,12 @@ public class EscuchaCliente extends Thread {
 	public void setPaqueteUsuario(PaqueteUsuario paqueteUsuario) {
 		this.paqueteUsuario = paqueteUsuario;
 	}
-}
 
+	public void setPaqueteNpcs(PaqueteNpcs paqueteNpcs) {
+		this.paqueteNpcs = paqueteNpcs;
+	}
+	
+	public PaqueteNpcs getPaqueteNpcs() {
+		return paqueteNpcs;
+	}
+}
