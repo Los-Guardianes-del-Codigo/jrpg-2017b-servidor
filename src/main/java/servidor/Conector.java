@@ -435,7 +435,7 @@ public class Conector {
 				npc.setDificultad(res.getInt("DIFICULTAD"));
 				npc.setNivel(res.getInt("NIVEL"));
 				npcs.put(npc.getIdPersonaje(), npc);
-				Servidor.log.append(npc.getNombre() + "->" + npc.getPosX() + "/" + npc.getPosY());
+				//Servidor.log.append(npc.getNombre() + "->" + npc.getPosX() + "/" + npc.getPosY());
 			}
 			Servidor.log.append("Enviado paquete de NPCS de la DB al Server" + System.lineSeparator());
 		} catch (SQLException e) {

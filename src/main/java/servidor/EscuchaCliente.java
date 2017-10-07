@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Random;
 
 import com.google.gson.Gson;
 
 import comandos.ComandosServer;
+import dominio.RandomGenerator;
 import mensajeria.Comando;
 import mensajeria.Paquete;
 import mensajeria.PaqueteAtacar;
@@ -37,9 +39,8 @@ public class EscuchaCliente extends Thread {
 	private PaqueteUsuario paqueteUsuario;
 	private PaqueteDeMovimientos paqueteDeMovimiento;
 	private PaqueteDePersonajes paqueteDePersonajes;
-	private PaqueteNpcs	paqueteNpcs;
+	private PaqueteNpcs paqueteNpcs;
 	private PaqueteNpc paqueteNpc;
-
 
 	public EscuchaCliente(String ip, Socket socket, ObjectInputStream entrada, ObjectOutputStream salida)
 			throws IOException {
@@ -55,6 +56,7 @@ public class EscuchaCliente extends Thread {
 			Paquete paquete;
 			Paquete paqueteSv = new Paquete(null, 0);
 			paqueteUsuario = new PaqueteUsuario();
+			paqueteNpcs = new PaqueteNpcs();
 
 			String cadenaLeida = (String) entrada.readObject();
 
@@ -87,6 +89,7 @@ public class EscuchaCliente extends Thread {
 			Servidor.log.append("Error de conexion: " + e.getMessage() + System.lineSeparator());
 		}
 	}
+
 
 	public Socket getSocket() {
 		return socket;
@@ -175,7 +178,7 @@ public class EscuchaCliente extends Thread {
 	public void setPaqueteNpcs(PaqueteNpcs paqueteNpcs) {
 		this.paqueteNpcs = paqueteNpcs;
 	}
-	
+
 	public PaqueteNpcs getPaqueteNpcs() {
 		return paqueteNpcs;
 	}
