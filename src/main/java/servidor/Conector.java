@@ -215,9 +215,10 @@ public class Conector {
 			stActualizarPersonaje.setInt(5, paquetePersonaje.getEnergiaTope());
 			stActualizarPersonaje.setInt(6, paquetePersonaje.getExperiencia());
 			stActualizarPersonaje.setInt(7, paquetePersonaje.getNivel());
-			stActualizarPersonaje.setInt(8, paquetePersonaje.getId());
 			
-			stActualizarPersonaje.setInt(9, paquetePersonaje.getPuntosAasignar());
+			stActualizarPersonaje.setInt(8, paquetePersonaje.getPuntosAasignar());
+			
+			stActualizarPersonaje.setInt(9, paquetePersonaje.getId());
 			stActualizarPersonaje.executeUpdate();
 
 			PreparedStatement stDameItemsID = connect.prepareStatement("SELECT * FROM mochila WHERE idMochila = ?");
@@ -413,9 +414,12 @@ public class Conector {
 			stActualizarPersonaje.setInt(5, paquetePersonaje.getEnergiaTope());
 			stActualizarPersonaje.setInt(6, paquetePersonaje.getExperiencia());
 			stActualizarPersonaje.setInt(7, paquetePersonaje.getNivel());
-			stActualizarPersonaje.setInt(8, paquetePersonaje.getId());
 			
-			stActualizarPersonaje.setInt(9, paquetePersonaje.getPuntosAasignar());
+			stActualizarPersonaje.setInt(8, paquetePersonaje.getPuntosAasignar());
+			
+			stActualizarPersonaje.setInt(9, paquetePersonaje.getId());
+			
+			
 			stActualizarPersonaje.executeUpdate();
 
 			Servidor.log.append("El personaje " + paquetePersonaje.getNombre() + " se ha actualizado con éxito."
